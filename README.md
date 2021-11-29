@@ -2,7 +2,7 @@
 Ticketing system using apis<br/>
 
 Installation:<br/>
-1)Install Python 3.x along with pip<br/>
+1)Install Python 3.x along with pip : https://www.python.org/downloads/windows/<br/>
 2)Edit the environment variables : https://www.educative.io/edpresso/how-to-add-python-to-path-variable-in-windows <br/>
 3)Write python in cmd to verify if it is installed <br/>
 4)Install Flask using pip : https://pypi.org/project/Flask/<br/>
