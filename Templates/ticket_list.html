@@ -2,8 +2,6 @@
 <html lang="en">
 <head>
     <meta charset="utf-8">
-    <!--  This file has been downloaded from bootdey.com @bootdey on twitter -->
-    <!--  All snippets are MIT license http://bootdey.com/license -->
     <title>Support Tickets</title>
     <meta name="viewport" content="width=device-width, initial-scale=1">
 	<script src="https://code.jquery.com/jquery-1.10.2.min.js"></script>
@@ -13,64 +11,15 @@
 <body>
 <link href="https://maxcdn.bootstrapcdn.com/font-awesome/4.3.0/css/font-awesome.min.css" rel="stylesheet">
 <div class="container mb-4 main-container">
+    <center><h2>Ticket List<h2></center>
     <div class="row">
-        <!--<div class="col-lg-4 pb-5">-->
-            <!-- Account Sidebar-->
-        <!-- <div class="author-card pb-3">
-                <div class="author-card-cover" style="background-image: url(https://bootdey.com/img/Content/flores-amarillas-wallpaper.jpeg);"><a class="btn btn-style-1 btn-white btn-sm" href="#" data-toggle="tooltip" title="" data-original-title="You currently have 290 Reward points to spend"><i class="fa fa-award text-md"></i>&nbsp;290 points</a></div>
-                <div class="author-card-profile">
-                    <div class="author-card-avatar"><img src="https://bootdey.com/img/Content/avatar/avatar1.png" alt="Daniel Adams">
-                    </div>
-                    <div class="author-card-details">
-                        <h5 class="author-card-name text-lg">Daniel Adams</h5><span class="author-card-position">Joined February 06, 2017</span>
-                    </div>
-                </div>
-            </div>
-            <div class="wizard">
-                <nav class="list-group list-group-flush">
-                    <a class="list-group-item active" href="#">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div><i class="fa fa-shopping-bag mr-1 text-muted"></i>
-                                <div class="d-inline-block font-weight-medium text-uppercase">Orders List</div>
-                            </div><span class="badge badge-secondary">6</span>
-                        </div>
-                    </a><a class="list-group-item" href="https://www.bootdey.com/snippets/view/bs4-profile-settings-page" target="__blank"><i class="fa fa-user text-muted"></i>Profile Settings</a><a class="list-group-item" href="#"><i class="fa fa-map-marker text-muted"></i>Addresses</a>
-                    <a class="list-group-item" href="https://www.bootdey.com/snippets/view/bs4-wishlist-profile-page" tagert="__blank">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div><i class="fa fa-heart mr-1 text-muted"></i>
-                                <div class="d-inline-block font-weight-medium text-uppercase">My Wishlist</div>
-                            </div><span class="badge badge-secondary">3</span>
-                        </div>
-                    </a>
-                    <a class="list-group-item" href="#">
-                        <div class="d-flex justify-content-between align-items-center">
-                            <div><i class="fa fa-tag mr-1 text-muted"></i>
-                                <div class="d-inline-block font-weight-medium text-uppercase">My Tickets</div>
-                            </div><span class="badge badge-secondary">4</span>
-                        </div>
-                    </a>
-                </nav>
-            </div>
-        </div>-->
-        <!-- Orders Table-->
+
         <div class="col-lg-12 pb-5">
-            <!--<div class="d-flex justify-content-end pb-3">
-                <div class="form-inline">
-                    <label class="text-muted mr-3" for="order-sort">Sort Orders</label>
-                    <select class="form-control" id="order-sort">
-                        <option>All</option>
-                        <option>Delivered</option>
-                        <option>In Progress</option>
-                        <option>Delayed</option>
-                        <option>Canceled</option>
-                    </select>
-                </div>
-            </div>-->
             <div class="table-responsive">
                 <table class="table table-hover mb-0">
                     <thead>
                         <tr>
-                            <th>Serial No.</th>
+                            <th>Ticket ID</th>
                             <th>Subject</th>
                             <th>Requester</th>
                             <th>Assignee</th>
@@ -88,7 +37,7 @@
                             <td><a href={{ url_for('showTicketInfo' , ticket_id= ticket_data[i]["id"]) }}>{{ticket_data[i]['requester_name']}}</a></td>
                             <td><span><a href={{ url_for('showTicketInfo' , ticket_id= ticket_data[i]["id"]) }}>{{ticket_data[i]['assignee_name']}}</a></span></td>
                             <td><span><a href={{ url_for('showTicketInfo' , ticket_id= ticket_data[i]["id"]) }}>{{ticket_data[i]['group_name']}}</a></span></td>
-                            <td><span class="badge badge-danger m-0">{{ticket_data[i]['status']}}</a></span></td>
+                            <td><span><a href={{ url_for('showTicketInfo' , ticket_id= ticket_data[i]["id"]) }}>{{ticket_data[i]['status']}}</a></span></td>
 
                         </tr>
 

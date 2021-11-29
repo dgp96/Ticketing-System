@@ -1,0 +1,9 @@
+[
+{
+ "Requester":"requester_name","Assignee":"assignee_name","Tags":"tags"
+},
+{
+"Ticket ID" : "id", "Date Created":"created_at", "Last Updated":"updated_at", "Status":"status", "Priority":"priority",
+"Type":"type","Group":"group_name","Subject":"subject", "Description":"description"
+}
+]

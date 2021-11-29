@@ -33,6 +33,14 @@ class QueryHandler:
     def getIndividualTicketResponse(self, endpoint):
         queryHandler = Client.getInstance()
         return queryHandler.getIndividualTicketResponse(endpoint)
+
+    def getModifiedDate(self, date):
+        queryHandler = Utils()
+        return queryHandler.modifyDate(date)
+
+    def getModifiedTags(self,tags):
+        queryHandler = Utils()
+        return queryHandler.modifyTags(tags)
     # def getCount(self,endpoint):
     #     queryHandler = Client.getInstance()
     #     return queryHandler.getCount(endpoint)

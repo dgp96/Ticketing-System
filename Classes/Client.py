@@ -5,7 +5,7 @@ class Client:
 
     _self_instance = None
     host = "https://zccdgp.zendesk.com/"
-    headers = {"Authorization":"Basic ZHByYWphcDNAYXN1LmVkdS90b2tlbjpYRURoRXFpZEg1eWFPaFZQckkycEFmTDg4d01QTFlEb2s2YlU1T0Vt"}
+    headers = {"Authorization":"Basic ADD_API_KEY_HERE"} #add base 64 encoded api key here
     params = {"per_page":25}
     def _init_(self):
         if _self_instance != None:

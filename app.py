@@ -2,30 +2,30 @@ from flask import Flask,render_template,request
 from Classes.Client import Client as Client
 from Classes.QueryHandler import QueryHandler as QueryHandler
 from Classes.Utils import Utils as Utils
+from pathlib import Path
 import requests
 import ujson
+import ast
+
 app = Flask(__name__)
 
-@app.errorhandler(404)
+@app.errorhandler(404) # routing for invalid url
 
 # inbuilt function which takes error as parameter
+
 def page_not_found(e):
-    #return "404",404
     return render_template("404.html"), 404
-# # defining function
-#
-#   #return render_template("404.html"), 404
+
 
 
 
 @app.route('/')
-def index():
-    #print("frgnr")
-    #return "New Instance"
-    endpoint1 = "api/v2/tickets"
-    endpoint2 = "api/v2/users/show_many.json?ids="
-    endpoint3 = "api/v2/groups"
-    #endpoint4 = "api/v2/tickets/count"
+def index(): #index page
+
+    endpoint1 = "api/v2/tickets" #endpoint for getting tickets
+    endpoint2 = "api/v2/users/show_many.json?ids=" #endpoint for getting userData from user ids
+    endpoint3 = "api/v2/groups" #endpoint to get all the groups
+
     response = True
 
     queryHandler = QueryHandler()
@@ -34,23 +34,25 @@ def index():
     except:
         response = False
     if response is False or tickets is None  or len(tickets) == 0:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
     seperator = ","
-    userIds = queryHandler.getUserIds(tickets,"requester_id")
-    assigneeIds = queryHandler.getUserIds(tickets,"assignee_id")
+    userIds = queryHandler.getUserIds(tickets,"requester_id") #returns unique  user ids from the ticket data
+    assigneeIds = queryHandler.getUserIds(tickets,"assignee_id")#returns assignee ids from the ticket data
 
     try:
-        userData = queryHandler.getUserData(endpoint2+seperator.join(userIds)+","+seperator.join(assigneeIds))
+        userData = queryHandler.getUserData(endpoint2+seperator.join(userIds)+","+seperator.join(assigneeIds)) #returns userData based on passed ids
     except:
         response = False
     if response is False or userData is None:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
     userMapping = queryHandler.getMapping(userData)
     keys = ["requester_id","assignee_id"]
     fields = ["requester","assignee"]
-    tickets = queryHandler.getModifiedTickets(tickets,userMapping,keys,fields)
+    tickets = queryHandler.getModifiedTickets(tickets,userMapping,keys,fields) #adds requester and assignee name to the ticket data
 
     keys = ["group_id"]
     fields = ["group"]
@@ -60,12 +62,13 @@ def index():
     except:
         response = False
     if response is False or groups is None:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
 
 
-    groupMapping = queryHandler.getMapping(groups)
-    tickets = queryHandler.getModifiedTickets(tickets,groupMapping,keys,fields)
+    groupMapping = queryHandler.getMapping(groups) #maps group ids to group names
+    tickets = queryHandler.getModifiedTickets(tickets,groupMapping,keys,fields) # adds group names to ticket data
 
 
     pages = int(count/25)
@@ -93,15 +96,13 @@ def index():
     page_data["current_page"] = 1
     page_data["previous"] = previous
     page_data["next"] = next
-    return render_template("bs4_account_tickets.html", len = len(tickets), page_data=page_data, ticket_data = tickets)
+    return render_template("ticket_list.html", len = len(tickets), page_data=page_data, ticket_data = tickets)
 
-@app.route('/page/<int:pg_no>')
+@app.route('/page/<int:pg_no>') #routes to different page no in list view
 def paginate(pg_no):
-    # here we want to get the value of user (i.e. ?user=some-value)
-    #pg_no = request.args.get('page')
     print("Page no: " +str(pg_no))
     if pg_no is None or pg_no<=0:
-        return "Error routing the page"
+        return render_template("404.html"), 404
 
 
 
@@ -121,7 +122,8 @@ def paginate(pg_no):
     except:
         response = False
     if response is False or tickets is None or len(tickets) == 0:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
     seperator = ","
     userIds = queryHandler.getUserIds(tickets,"requester_id")
@@ -133,7 +135,8 @@ def paginate(pg_no):
     except:
         response = False
     if response is False or userData is None:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
 
 
@@ -152,7 +155,8 @@ def paginate(pg_no):
     except:
         response = False
     if response is False or groups is None:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
     groupMapping = queryHandler.getMapping(groups)
     tickets = queryHandler.getModifiedTickets(tickets,groupMapping,keys,fields)
@@ -181,10 +185,10 @@ def paginate(pg_no):
     page_data["previous"] = previous
     page_data["next"] = next
 
-    return render_template("bs4_account_tickets.html", len = len(tickets), page_data=page_data, ticket_data = tickets)
+    return render_template("ticket_list.html", len = len(tickets), page_data=page_data, ticket_data = tickets)
     #return "You're requesting page# " + pg_no
 
-@app.route('/ticket/<int:ticket_id>')
+@app.route('/ticket/<int:ticket_id>') #reoutes to different tickets in ticket details view
 def showTicketInfo(ticket_id):
 
     endpoint1 = "api/v2/tickets/" +str(ticket_id)
@@ -199,7 +203,13 @@ def showTicketInfo(ticket_id):
     except:
         response = False
     if response is False or ticket is None or len(ticket) == 0:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
+
+    ticket["created_at"] = queryHandler.getModifiedDate(ticket["created_at"])
+    ticket["updated_at"] = queryHandler.getModifiedDate(ticket["updated_at"])
+    ticket["tags"] = queryHandler.getModifiedTags(ticket["tags"])
+
 
     ticket_list = []
     ticket_list.append(ticket)
@@ -214,7 +224,8 @@ def showTicketInfo(ticket_id):
     except:
         response = False
     if response is False or userData is None:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
     userMapping = queryHandler.getMapping(userData)
     keys = ["requester_id","assignee_id"]
@@ -231,22 +242,18 @@ def showTicketInfo(ticket_id):
     except:
         response = False
     if response is False or groups is None:
-        return "Error routing the page"
+        #return "Error routing the page"
+        return render_template("404.html"), 404
 
     groupMapping = queryHandler.getMapping(groups)
     ticket_list = queryHandler.getModifiedTickets(ticket_list,groupMapping,keys,fields)
-    #return "You're viewing ticket with id: " +str(ticket_id)
-    ticket_key_values = [
-    {
-     "Requester":"requester_name","Assignee":"assignee_name","Tags":"tags"
-    },
-    {
-    "Ticket ID" : "id", "Date Created":"created_at", "Last Updated":"updated_at", "Status":"status", "Priority":"priority",
-    "Type":"type","Group":"group_name","Subject":"subject", "Description":"description"
-    }
-    ]
 
-    return render_template("shop_user_profile_with_ticket.html", len = len(ticket_key_values), ticket_data = ticket_list,ticket_key_values=ticket_key_values )
+    with open('TicketMapping.txt') as f: #TicketMapping contains which fields to be shown on the ticket details page
+        data= f.read() #first dictionary contains left data to be displayed on the left and second dictionary indicates data to be displayed on the right
+
+    ticket_key_values = ast.literal_eval(data)
+
+    return render_template("ticket_details.html", len = len(ticket_key_values), ticket_data = ticket_list,ticket_key_values=ticket_key_values )
 
 
 
