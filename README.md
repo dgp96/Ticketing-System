@@ -12,4 +12,4 @@ Installation:<br/>
 8)In a browser open http://localhost:5050/ <br/>
 9) For Unit testing: <br/>
   a)Install pytest using pip : https://pypi.org/project/pytest/ <br/>
-  b)Run the following command in command prompt : python -m pytest <br/>
+  b)Run the following command in command prompt : `python -m pytest` <br/>
