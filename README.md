@@ -5,7 +5,7 @@ Installation:<br/>
 1)Install Python 3.x along with pip : https://www.python.org/downloads/windows/<br/>
 2)Edit the environment variables : https://www.educative.io/edpresso/how-to-add-python-to-path-variable-in-windows <br/>
 3)Write python in cmd to verify if it is installed <br/>
-4)Install Flask using pip : https://pypi.org/project/Flask/<br/>
+4)Install Flask using pip : https://pypi.org/project/Flask/ (check requirements.txt to see all the modules to be installed) <br/>
 5)Install ujson,requests using pip : https://pypi.org/project/ujson/, https://pypi.org/project/requests/ <br/>
 6)Move into the directory where all the codefiles are and open command prompt <br/>
 7)Type `python app.py` to run the main app file (BEFORE running please add the API key in line 8 of app.py)<br/>
